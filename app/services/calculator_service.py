@@ -2,7 +2,7 @@ from sqlalchemy.orm import Session
 from app.models.calculation import Calculation
 from app.schemas.calculation import CalculationRequest
 
-class CalculationService:
+class CalculatorService:
 
     def __init__(self,db:Session):
         self.db = db
