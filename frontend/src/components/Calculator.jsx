@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 
+import "./Calculator.css";
+
 import {
     calculateResult,
     getHistory
@@ -68,37 +70,39 @@ function Calculator() {
 
 
     return (
-        <div>
 
-            <h1>Calculator</h1>
+        <div className="container">
+
+            <h1 className="title">
+                Calculator
+            </h1>
 
             <form onSubmit={handleCalculate}>
 
                 <input
+                    className="input-field"
                     type="number"
                     placeholder="First Number"
                     value={num1}
                     onChange={(event) =>
                         setNum1(event.target.value)
                     }
+                    required
                 />
 
-                <br />
-                <br />
-
                 <input
+                    className="input-field"
                     type="number"
                     placeholder="Second Number"
                     value={num2}
                     onChange={(event) =>
                         setNum2(event.target.value)
                     }
+                    required
                 />
 
-                <br />
-                <br />
-
                 <select
+                    className="select-field"
                     value={operation}
                     onChange={(event) =>
                         setOperation(event.target.value)
@@ -119,70 +123,91 @@ function Calculator() {
                     <option value="divide">
                         Divide
                     </option>
+
                 </select>
 
-                <br />
-                <br />
-
-                <button type="submit">
+                <button
+                    className="button"
+                    type="submit"
+                >
                     Calculate
                 </button>
 
             </form>
 
 
-            <br />
-
             {result && (
 
-                <div>
+                <div className="result-box">
 
                     <h2>
                         Result
                     </h2>
 
-                    <p>
+                    <h3>
                         {result.result}
-                    </p>
+                    </h3>
 
                 </div>
 
             )}
 
 
-            <hr />
+            <div className="history-box">
 
-            <h2>
-                History
-            </h2>
+                <h2>
+                    Calculation History
+                </h2>
 
-            {history.map((item) => (
+                {
 
-                <div key={item.id}>
+                    history.length === 0 ? (
 
-                    <p>
+                        <p>
+                            No calculations found.
+                        </p>
 
-                        {item.num1}
+                    ) : (
 
-                        {" "}
+                        history.map((item) => (
 
-                        {item.operation}
+                            <div
+                                className="history-item"
+                                key={item.id}
+                            >
 
-                        {" "}
+                                <p>
 
-                        {item.num2}
+                                    {item.num1}
 
-                        {" = "}
+                                    {" "}
 
-                        {item.result}
+                                    {item.operation}
 
-                    </p>
+                                    {" "}
 
-                </div>
+                                    {item.num2}
 
-            ))}
+                                    {" = "}
+
+                                    <strong>
+                                        {item.result}
+                                    </strong>
+
+                                </p>
+
+                            </div>
+
+                        ))
+
+                    )
+
+                }
+
+            </div>
 
         </div>
+
     );
 }
 
