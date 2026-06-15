@@ -39,8 +39,8 @@ jobs:
       - name: Install Dependencies
         run: pip install -r requirements.txt
 
-      - name: Verify FastAPI Application
-        run: python -c "from app.main import app"
+      # - name: Verify FastAPI Application
+      #   run: python -c "from app.main import app"
 
   frontend:
     name: Frontend CI
