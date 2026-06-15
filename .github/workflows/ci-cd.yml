@@ -1,97 +1,66 @@
 name: Calculator Project CI/CD
 
 on:
-
   push:
-
     branches:
       - main
 
   pull_request:
-
     branches:
       - main
 
-
 jobs:
-
   backend:
-
+    name: Backend CI
     runs-on: ubuntu-latest
 
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      REDIS_HOST: ${{ secrets.REDIS_HOST }}
+      REDIS_PORT: ${{ secrets.REDIS_PORT }}
+      REDIS_DB: ${{ secrets.REDIS_DB }}
+
     defaults:
-
       run:
-
         working-directory: backend
 
     steps:
-
       - name: Checkout Repository
-
         uses: actions/checkout@v4
 
-
       - name: Setup Python
-
         uses: actions/setup-python@v5
-
         with:
-
           python-version: "3.13"
 
+      - name: Upgrade Pip
+        run: python -m pip install --upgrade pip
 
       - name: Install Dependencies
+        run: pip install -r requirements.txt
 
-        run: |
-
-          python -m pip install --upgrade pip
-
-          pip install -r requirements.txt
-
-
-      - name: Verify FastAPI Import
-
-        run: |
-
-          python -c "from app.main import app"
-
+      - name: Verify FastAPI Application
+        run: python -c "from app.main import app"
 
   frontend:
-
+    name: Frontend CI
     runs-on: ubuntu-latest
 
     defaults:
-
       run:
-
         working-directory: frontend
 
     steps:
-
       - name: Checkout Repository
-
         uses: actions/checkout@v4
 
-
       - name: Setup Node.js
-
         uses: actions/setup-node@v4
-
         with:
-
           node-version: "22"
 
-
       - name: Install Dependencies
-
-        run: |
-
-          npm install
-
+        run: npm install
 
       - name: Build React Application
-
-        run: |
-
-          npm run build
+        run: npm run build
